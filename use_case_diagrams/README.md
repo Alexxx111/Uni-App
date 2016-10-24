@@ -1,7 +1,6 @@
-# Uni-App
-TU Dresden - Application Development for Mobile and Ubiquitous Computing
+# Use Case Diagrams
+Hier kommen alle Use Case Diagramme rein.
 
-Habe Milestones mit den jeweiligen Unterzielen eingefügt, damit wir nichts vergessen können.
 24.10.2016 - Alex
 
 
