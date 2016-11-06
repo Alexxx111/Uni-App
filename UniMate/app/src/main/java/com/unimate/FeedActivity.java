@@ -7,13 +7,19 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.unimate.model.Event;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -45,7 +51,43 @@ public class FeedActivity extends BaseActivity {
         // [END initialize_database_ref]
 
         Button logout_button = (Button) findViewById(R.id.logout_button);
-        ListView listView = (ListView)findViewById(R.id.listView);
+        final ListView listView = (ListView)findViewById(R.id.listView);
+
+        //load list start ----
+
+        final ArrayList events = new ArrayList<Event>();
+
+        mDatabase.child("events").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d: dataSnapshot.getChildren()){
+                    events.add(d.getValue(Event.class));
+                }
+                // setup adapter
+                adapter=new ListAdapter(FeedActivity.this, events);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(FeedActivity.this, GroupDescriptionActivity.class);
+                        Event e = (Event) adapterView.getAdapter().getItem(i);
+                        String memberCountString = e.getName();
+                        intent.putExtra("memberCount", memberCountString);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        // load list end ----
 
         ArrayList names = new ArrayList<String>();
         names.add("testname");
@@ -54,8 +96,7 @@ public class FeedActivity extends BaseActivity {
 
         System.out.println("--- " + names.size() + " ,, " + count.size());
 
-        adapter=new ListAdapter(this, names, count);
-        listView.setAdapter(adapter);
+
 
         logout_button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,27 +15,27 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.unimate.model.Event;
+
 public class ListAdapter extends BaseAdapter {
 
     private Activity activity;
-    private ArrayList<String> names;
-    private ArrayList<String> counts;
+    private ArrayList<Event> events;
     private static LayoutInflater inflater=null;
 
 
-    public ListAdapter(Activity a, ArrayList<String> names, ArrayList<String> counts) {
+    public ListAdapter(Activity a, ArrayList<Event> events) {
         activity = a;
-        this.names = names;
-        this.counts = counts;
+        this.events = events;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
-        return names.size();
+        return events.size();
     }
 
     public Object getItem(int position) {
-        return position;
+        return events.get(position);
     }
 
     public long getItemId(int position) {
@@ -50,12 +50,13 @@ public class ListAdapter extends BaseAdapter {
         TextView event_name_text = (TextView)vi.findViewById(R.id.event_name_text); // title
         TextView member_counter_text = (TextView)vi.findViewById(R.id.member_counter_text); // artist name
 
-        String name = names.get(position);
-        String count = counts.get(position);
+        String name = events.get(position).getName();
+        String count = String.valueOf(events.get(position).getMemberCount());
 
         // Setting all values in listview
         event_name_text.setText(name);
         member_counter_text.setText(count);
         return vi;
     }
+
 }

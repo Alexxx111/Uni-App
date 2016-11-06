@@ -23,7 +23,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".FeedActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".CreateEventActivity"></activity>
+        <activity android:name=".CreateEventActivity" />
+        <activity android:name=".GroupDescriptionActivity"></activity>
     </application>
 
 </manifest>
