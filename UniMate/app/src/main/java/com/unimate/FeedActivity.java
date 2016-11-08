@@ -76,6 +76,10 @@ public class FeedActivity extends BaseActivity {
                         Intent intent = new Intent(FeedActivity.this, DescriptionActivity.class);
                         Event e = (Event) adapterView.getAdapter().getItem(i);
                         String groupNameString = e.getName();
+                        String startTimeString = e.getStartHour() + ":" + e.getStartMinute();
+                        String endTimeString = e.getEndHour() + ":" + e.getEndMinute();
+                        intent.putExtra("startTime", startTimeString);
+                        intent.putExtra("endTime", endTimeString);
                         intent.putExtra("groupName", groupNameString);
                         String groupDescriptionString = e.getDescription();
                         intent.putExtra("groupDescription", groupDescriptionString);
