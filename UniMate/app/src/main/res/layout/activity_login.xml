@@ -72,4 +72,5 @@
         android:id="@+id/switch_to_register_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

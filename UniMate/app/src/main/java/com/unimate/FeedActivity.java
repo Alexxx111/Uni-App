@@ -33,8 +33,6 @@ public class FeedActivity extends BaseActivity {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
-    private Toolbar toolbar;
-
     private ListAdapter adapter;
 
     @Override
