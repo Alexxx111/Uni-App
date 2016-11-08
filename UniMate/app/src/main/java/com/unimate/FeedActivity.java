@@ -60,6 +60,9 @@ public class FeedActivity extends BaseActivity {
         mDatabase.child("events").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                events.clear();
+
                 for(DataSnapshot d: dataSnapshot.getChildren()){
                     events.add(d.getValue(Event.class));
                 }
@@ -70,10 +73,12 @@ public class FeedActivity extends BaseActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent = new Intent(FeedActivity.this, GroupDescriptionActivity.class);
+                        Intent intent = new Intent(FeedActivity.this, DescriptionActivity.class);
                         Event e = (Event) adapterView.getAdapter().getItem(i);
-                        String memberCountString = e.getName();
-                        intent.putExtra("memberCount", memberCountString);
+                        String groupNameString = e.getName();
+                        intent.putExtra("groupName", groupNameString);
+                        String groupDescriptionString = e.getDescription();
+                        intent.putExtra("groupDescription", groupDescriptionString);
                         startActivity(intent);
                     }
                 });

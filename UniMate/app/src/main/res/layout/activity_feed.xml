@@ -24,15 +24,18 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
         android:id="@+id/logout_button"
-        android:layout_alignBottom="@+id/myFAB"
-        android:layout_centerHorizontal="true" />
+        android:background="@android:drawable/ic_lock_power_off"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/myFAB"
+        />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
+        android:layout_toStartOf="@+id/myFAB"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignEnd="@+id/myFAB" />
 </RelativeLayout>
