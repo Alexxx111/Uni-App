@@ -4,7 +4,6 @@ package com.unimate;
  * Created by Hans Vader on 01.11.2016.
  */
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.unimate.model.Event;
@@ -47,7 +45,7 @@ public class ListAdapter extends BaseAdapter {
         if(convertView==null)
             vi = inflater.inflate(R.layout.list_element, null);
 
-        TextView event_name_text = (TextView)vi.findViewById(R.id.event_name_text); // title
+        TextView event_name_text = (TextView)vi.findViewById(R.id.message_text); // title
         TextView member_counter_text = (TextView)vi.findViewById(R.id.member_counter_text); // artist name
 
         String name = events.get(position).getName();

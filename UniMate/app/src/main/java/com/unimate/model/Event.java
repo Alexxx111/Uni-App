@@ -7,7 +7,7 @@ public class Event {
 
     private String name, description;
     private int memberCount, startHour, startMinute, endHour, endMinute;
-    private float gpsX, gpsY;
+    private double latitude, longitude;
 
     public Event() {
 
@@ -29,20 +29,20 @@ public class Event {
         this.memberCount = memberCount;
     }
 
-    public float getGpsX() {
-        return gpsX;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setGpsX(float gpsX) {
-        this.gpsX = gpsX;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public float getGpsY() {
-        return gpsY;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setGpsY(float gpsY) {
-        this.gpsY = gpsY;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getDescription() {

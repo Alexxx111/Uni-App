@@ -3,13 +3,10 @@ package com.unimate;
 import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,6 +21,7 @@ public class CreateEventActivity extends AppCompatActivity {
     // [END declare_database_ref]
 
     private int startHour, startMinute, endHour, endMinute;
+    private double longitude, latitude ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +33,7 @@ public class CreateEventActivity extends AppCompatActivity {
         // [END initialize_database_ref]
 
         Button createGroupButton = (Button) findViewById(R.id.create_event_button);
-        final TextView groupNameText = (TextView)findViewById(R.id.event_name_text);
+        final TextView groupNameText = (TextView)findViewById(R.id.message_text);
         final TextView groupDescritionText = (TextView) findViewById(R.id.group_description_text);
         final TextView startTime = (TextView)findViewById(R.id.start_time);
         final TextView endTime = (TextView)findViewById(R.id.end_time);
@@ -52,6 +50,21 @@ public class CreateEventActivity extends AppCompatActivity {
         startMinute = minute;
         endHour = hour;
         endMinute = minute;
+
+        longitude =0d;
+        latitude = 0d;
+
+        //crate gpsTracker Object
+        GPSTracker gpsTracker= new GPSTracker(CreateEventActivity.this);
+
+        //if we can get gps ..
+        if(gpsTracker.canGetLocation()){
+            latitude = gpsTracker.getLatitude(); // returns latitude
+            longitude =gpsTracker.getLongitude(); // returns longitude
+        }
+        else{
+            gpsTracker.showSettingsAlert();
+        }
 
         startTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,11 +106,13 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
+
                 Event event = new Event();
                 event.setName(groupNameText.getText().toString());
                 event.setDescription(groupDescritionText.getText().toString());
-                event.setGpsX(0f);
-                event.setGpsY(0f);
+                event.setLatitude(latitude);
+                event.setLongitude(longitude);
                 event.setMemberCount(1);
                 event.setStartHour(startHour);
                 event.setStartMinute(startMinute);

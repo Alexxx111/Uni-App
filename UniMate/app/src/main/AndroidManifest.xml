@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unimate">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -27,7 +28,12 @@
         <activity
             android:name=".DescriptionActivity"
             android:label="@string/title_activity_description"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".GroupActivity"
+            android:label="@string/title_activity_group"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CreateMessageActivity"></activity>
     </application>
 
 </manifest>
