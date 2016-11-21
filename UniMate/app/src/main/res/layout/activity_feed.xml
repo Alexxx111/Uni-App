@@ -22,20 +22,17 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/logout_button"
-        android:background="@android:drawable/ic_lock_power_off"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/myFAB"
-        />
+        android:background="@android:drawable/ic_menu_revert"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_toStartOf="@+id/myFAB"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/myFAB" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

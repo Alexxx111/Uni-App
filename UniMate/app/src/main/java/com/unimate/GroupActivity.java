@@ -81,6 +81,8 @@ public class GroupActivity extends AppCompatActivity {
                     Message m = d.getValue(Message.class);
                     message_text.setText(m.getMessageText());
 
+                    System.out.println("...-" + m.getMessageText());
+
                     ll.addView(vi);
                 }
             }

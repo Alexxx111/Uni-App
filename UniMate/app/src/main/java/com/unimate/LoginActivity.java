@@ -2,6 +2,7 @@ package com.unimate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -100,7 +101,7 @@ public class LoginActivity extends BaseActivity {
                             Toast.makeText(LoginActivity.this, "signin failed", Toast.LENGTH_LONG).show();
                         }
                         else{
-                            Intent  i = new Intent(LoginActivity.this, FeedActivity.class);
+                            Intent  i = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(i);
                         }
 

@@ -2,11 +2,14 @@ package com.unimate;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -25,7 +28,7 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 
-public class FeedActivity extends BaseActivity {
+public class FeedActivity extends Fragment {
 
     private FirebaseAuth mAuth;
 
@@ -36,9 +39,14 @@ public class FeedActivity extends BaseActivity {
     private ListAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_feed, container, false);
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -48,8 +56,8 @@ public class FeedActivity extends BaseActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        Button logout_button = (Button) findViewById(R.id.logout_button);
-        final ListView listView = (ListView)findViewById(R.id.listView);
+        Button logout_button = (Button) getView().findViewById(R.id.logout_button);
+        final ListView listView = (ListView)getView().findViewById(R.id.listView);
 
         //load list start ----
 
@@ -65,13 +73,13 @@ public class FeedActivity extends BaseActivity {
                     events.add(d.getValue(Event.class));
                 }
                 // setup adapter
-                adapter=new ListAdapter(FeedActivity.this, events);
+                adapter=new ListAdapter(getActivity(), events);
                 listView.setAdapter(adapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent = new Intent(FeedActivity.this, DescriptionActivity.class);
+                        Intent intent = new Intent(getActivity(), DescriptionActivity.class);
                         Event e = (Event) adapterView.getAdapter().getItem(i);
                         String groupNameString = e.getName();
                         String startTimeString = e.getStartHour() + ":" + e.getStartMinute();
@@ -109,19 +117,18 @@ public class FeedActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 signOut();
-                Intent i = new Intent(FeedActivity.this, LoginActivity.class);
+                Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
             }
         });
 
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.myFAB);
+        FloatingActionButton myFab = (FloatingActionButton)getView().findViewById(R.id.myFAB);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent  i = new Intent(FeedActivity.this, CreateEventActivity.class);
+                Intent  i = new Intent(getActivity(), CreateEventActivity.class);
                 startActivity(i);
             }
         });
-
 
     }
 
@@ -140,5 +147,8 @@ public class FeedActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onBackPressed() {
     }
 }
