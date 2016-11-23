@@ -104,15 +104,6 @@ public class FeedActivity extends Fragment {
 
         // load list end ----
 
-        ArrayList names = new ArrayList<String>();
-        names.add("testname");
-        ArrayList count = new ArrayList<String>();
-        count.add("1");
-
-        System.out.println("--- " + names.size() + " ,, " + count.size());
-
-
-
         logout_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
