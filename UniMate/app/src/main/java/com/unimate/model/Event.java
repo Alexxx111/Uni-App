@@ -5,7 +5,7 @@ package com.unimate.model;
  */
 public class Event {
 
-    private String name, description;
+    private String name, description, location;
     private int memberCount, startHour, startMinute, endHour, endMinute;
     private double latitude, longitude;
 
@@ -83,5 +83,13 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

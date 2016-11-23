@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.unimate.model.Event;
 import com.unimate.model.Message;
 
 public class GroupActivity extends AppCompatActivity {
@@ -38,6 +39,9 @@ public class GroupActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //back button in the toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -60,6 +64,31 @@ public class GroupActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(GroupActivity.this, CreateMessageActivity.class);
                 intent1.putExtra("groupName", groupNameString);
                 startActivity(intent1);
+            }
+        });
+
+        //define what the back button does
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // subtract one of the membercounter:
+                mDatabase.child("events").child(groupNameString).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Event e = dataSnapshot.getValue(Event.class);
+                        int countBefore = e.getMemberCount();
+                        e.setMemberCount(countBefore-1);
+                        mDatabase.child("events").child(groupNameString).setValue(e);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                finish();
             }
         });
 

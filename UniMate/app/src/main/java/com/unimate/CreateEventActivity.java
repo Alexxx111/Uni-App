@@ -1,10 +1,12 @@
 package com.unimate;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -37,6 +39,7 @@ public class CreateEventActivity extends AppCompatActivity {
         final TextView groupDescritionText = (TextView) findViewById(R.id.group_description_text);
         final TextView startTime = (TextView)findViewById(R.id.start_time);
         final TextView endTime = (TextView)findViewById(R.id.end_time);
+        final EditText location_text = (EditText)findViewById(R.id.location_text);
         //final TextClock endTime = (TextClock)findViewById(R.id.endClock);
 
         Calendar mcurrentTime = Calendar.getInstance();
@@ -118,10 +121,24 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setStartMinute(startMinute);
                 event.setEndHour(endHour);
                 event.setEndMinute(endMinute);
+                event.setLocation(location_text.getText().toString());
 
                 mDatabase.child("events").child(groupNameText.getText().toString()).setValue(event);
 
-                finish();
+                String startTimeString = String.valueOf(startHour) + ":" + String.valueOf(startMinute);
+                String endTimeString = String.valueOf(endHour) + ":" + String.valueOf(endMinute);
+                String groupNameString = event.getName();
+                String groupDescriptionString = event.getDescription();
+                String groupLocationString = event.getLocation();
+                // switch to group content activity
+                Intent intent1 = new Intent(CreateEventActivity.this,  GroupActivity.class);
+
+                intent1.putExtra("startTime", startTimeString);
+                intent1.putExtra("endTime", endTimeString);
+                intent1.putExtra("groupName", groupNameString);
+                intent1.putExtra("groupDescription", groupDescriptionString);
+                intent1.putExtra("groupLocation", groupLocationString);
+                startActivity(intent1);
             }
         });
 

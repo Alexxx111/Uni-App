@@ -87,6 +87,7 @@ public class FeedActivity extends Fragment {
                         intent.putExtra("startTime", startTimeString);
                         intent.putExtra("endTime", endTimeString);
                         intent.putExtra("groupName", groupNameString);
+                        intent.putExtra("groupLocation", e.getLocation());
                         String groupDescriptionString = e.getDescription();
                         intent.putExtra("groupDescription", groupDescriptionString);
                         startActivity(intent);
