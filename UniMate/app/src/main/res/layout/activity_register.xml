@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Register"
+        android:text="@string/register"
         android:id="@+id/textView2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -21,7 +21,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/register"
         android:id="@+id/register_button"
         android:layout_below="@+id/password_text"
         android:layout_centerHorizontal="true"
@@ -39,7 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="@string/email"
         android:id="@+id/email_label"
         android:layout_marginTop="86dp"
         android:layout_below="@+id/textView2"
@@ -57,7 +57,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:text="@string/password"
         android:id="@+id/textView3"
         android:layout_above="@+id/password_text"
         android:layout_centerHorizontal="true" />
@@ -68,12 +68,12 @@
         android:id="@+id/switch_to_login_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Login" />
+        android:text="@string/login" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account?"
+        android:text="@string/already_have_an_account"
         android:id="@+id/textView4"
         android:layout_above="@+id/switch_to_login_button"
         android:layout_centerHorizontal="true" />
