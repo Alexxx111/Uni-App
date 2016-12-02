@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -56,7 +57,7 @@ public class FeedActivity extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        ImageButton logout_button = (Button) getView().findViewById(R.id.logout_button);
+        ImageButton logout_button = (ImageButton) getView().findViewById(R.id.logout_button);
         final ListView listView = (ListView)getView().findViewById(R.id.listView);
 
         //load list start ----
