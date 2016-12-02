@@ -56,7 +56,7 @@ public class FeedActivity extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        Button logout_button = (Button) getView().findViewById(R.id.logout_button);
+        ImageButton logout_button = (Button) getView().findViewById(R.id.logout_button);
         final ListView listView = (ListView)getView().findViewById(R.id.listView);
 
         //load list start ----
