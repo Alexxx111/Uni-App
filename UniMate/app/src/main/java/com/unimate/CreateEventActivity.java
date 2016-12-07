@@ -46,8 +46,13 @@ public class CreateEventActivity extends AppCompatActivity {
         final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         final int minute = mcurrentTime.get(Calendar.MINUTE);
 
-        startTime.setText(String.valueOf(hour) + ":" +String.valueOf(minute));
-        endTime.setText(String.valueOf(hour) + ":" + String.valueOf(minute));
+        if(minute < 10) {
+            startTime.setText(String.valueOf(hour) + ":0" + String.valueOf(minute));
+            endTime.setText(String.valueOf(hour) + ":0" + String.valueOf(minute));
+        }else {
+            startTime.setText(String.valueOf(hour) + ":" + String.valueOf(minute));
+            endTime.setText(String.valueOf(hour) + ":" + String.valueOf(minute));
+        }
 
         startHour = hour;
         startMinute = minute;
@@ -77,9 +82,18 @@ public class CreateEventActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(CreateEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        startTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+                        if(selectedMinute < 10){
+                            startTime.setText(String.valueOf(selectedHour) + ":0" + String.valueOf(selectedMinute));
+                            endTime.setText(String.valueOf(selectedHour) + ":0" + String.valueOf(selectedMinute));
+                        }else{
+                            startTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+                            endTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+                        }
                         startMinute = selectedMinute;
                         startHour = selectedHour;
+
+                        endHour = selectedHour;
+                        endMinute = selectedMinute;
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
@@ -95,7 +109,12 @@ public class CreateEventActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(CreateEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        endTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+                        if(selectedMinute < 10){
+                            endTime.setText(String.valueOf(selectedHour) + ":0" + String.valueOf(selectedMinute));
+                        }else{
+                            endTime.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+                        }
+
                         endHour = selectedHour;
                         endMinute = selectedMinute;
                     }
