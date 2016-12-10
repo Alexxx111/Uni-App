@@ -150,7 +150,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 String groupDescriptionString = event.getDescription();
                 String groupLocationString = event.getLocation();
                 // switch to group content activity
-                Intent intent1 = new Intent(CreateEventActivity.this,  GroupActivity.class);
+                Intent intent1 = new Intent(CreateEventActivity.this,  NewGroupActivity.class);
 
                 intent1.putExtra("startTime", startTimeString);
                 intent1.putExtra("endTime", endTimeString);

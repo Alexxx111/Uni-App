@@ -29,13 +29,7 @@
             android:name=".DescriptionActivity"
             android:label="@string/title_activity_description"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".GroupActivity"
-            android:label="@string/title_activity_group"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CreateMessageActivity" />
         <activity android:name=".MainActivity" />
-
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -49,6 +43,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAPPtW1j7lYJPkdT1BvGzd_XKUrJdJ_Dik" />
 
+        <activity android:name=".NewGroupActivity"></activity>
     </application>
 
 </manifest>

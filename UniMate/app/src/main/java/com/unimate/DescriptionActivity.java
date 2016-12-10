@@ -77,7 +77,7 @@ public class DescriptionActivity extends AppCompatActivity {
                     }
                 });
 
-                Intent intent1 = new Intent(DescriptionActivity.this,  GroupActivity.class);
+                Intent intent1 = new Intent(DescriptionActivity.this,  NewGroupActivity.class);
 
                 intent1.putExtra("startTime", startTimeString);
                 intent1.putExtra("endTime", endTimeString);
