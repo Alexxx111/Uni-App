@@ -109,7 +109,7 @@ public class NewGroupActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 //change icon of floating button when text is entered
                 if(messageEditText.getText().toString().length() > 0){
-                    fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_send));
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_send_black_24dp));
                     textEntered = true;
                 }
                 else{

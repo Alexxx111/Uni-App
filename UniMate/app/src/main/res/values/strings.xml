@@ -124,4 +124,5 @@
     <string name="member_counter">Member Counter</string>
     <string name="message_text">Message Text</string>
     <string name="message_hint">Write Message</string>
+    <string name="topic">Topic</string>
 </resources>
