@@ -30,8 +30,6 @@
         android:contentDescription="@string/back" />
 
     <ListView
-        android:layout_width="328dp"
-        android:layout_height="479dp"
         android:id="@+id/listView"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
