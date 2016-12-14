@@ -47,12 +47,15 @@ public class ListAdapter extends BaseAdapter {
 
         TextView event_name_text = (TextView)vi.findViewById(R.id.message_text); // title
         TextView member_counter_text = (TextView)vi.findViewById(R.id.member_counter_text); // artist name
+        TextView modul_name = (TextView) vi.findViewById(R.id.modul_name);
 
+        String modul = events.get(position).getModul();
         String name = events.get(position).getName();
         String count = String.valueOf(events.get(position).getMemberCount());
 
         // Setting all values in listview
         event_name_text.setText(name);
+        modul_name.setText(modul);
         member_counter_text.setText(count);
         return vi;
     }

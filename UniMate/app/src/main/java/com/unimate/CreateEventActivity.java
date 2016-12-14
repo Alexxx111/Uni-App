@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -219,7 +220,10 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                if(groupNameText.getText().toString().equals("")){
+                    Toast.makeText(CreateEventActivity.this,"You have to enter a vaild name!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Event event = new Event();
                 event.setName(groupNameText.getText().toString());
@@ -231,6 +235,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setStartMinute(startMinute);
                 event.setEndHour(endHour);
                 event.setEndMinute(endMinute);
+                event.setModul(tag_spinner.getSelectedItem().toString());
                 event.setLocation(location_text.getText().toString());
 
                 mDatabase.child("events").child(groupNameText.getText().toString()).setValue(event);

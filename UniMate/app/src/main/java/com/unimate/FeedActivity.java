@@ -71,6 +71,7 @@ public class FeedActivity extends Fragment {
                 events.clear();
 
                 for(DataSnapshot d: dataSnapshot.getChildren()){
+                    System.out.println("hallowww " + d.getValue().toString());
                     events.add(d.getValue(Event.class));
                 }
                 // setup adapter
