@@ -6,7 +6,9 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,6 +35,19 @@ public class LoginActivity extends BaseActivity {
         Button switch_to_register_button = (Button)findViewById(R.id.switch_to_register_button);
         final TextView username_text = (TextView)findViewById(R.id.username_text);
         final TextView password_text = (TextView)findViewById(R.id.password_text);
+        password_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    String email = username_text.getText().toString();
+                    String password = password_text.getText().toString();
+                    signIn(email, password);
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();

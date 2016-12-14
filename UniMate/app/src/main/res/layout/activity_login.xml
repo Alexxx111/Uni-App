@@ -16,7 +16,8 @@
         app:layout_constraintLeft_toLeftOf="@+id/password_text"
         app:layout_constraintRight_toRightOf="@+id/password_text"
         android:textAlignment="center"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionNext" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -31,7 +32,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:textAlignment="center"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1" />
+        tools:layout_constraintLeft_creator="1"
+        android:imeOptions="actionGo" />
 
     <Button
         android:layout_width="wrap_content"

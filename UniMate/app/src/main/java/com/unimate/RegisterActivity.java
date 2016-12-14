@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +48,17 @@ public class RegisterActivity extends BaseActivity {
         Button switch_to_login = (Button)findViewById(R.id.switch_to_login_button);
         final TextView email_text = (TextView)findViewById(R.id.email_text);
         final TextView password_text = (TextView)findViewById(R.id.password_text);
+        password_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    createAccount(email_text.getText().toString(), password_text.getText().toString());
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
