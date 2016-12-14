@@ -5,15 +5,23 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.unimate.model.Event;
+import com.unimate.model.Modul;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CreateEventActivity extends AppCompatActivity {
@@ -22,6 +30,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
+    private String[] spinnerArray;
     private int startHour, startMinute, endHour, endMinute;
     private double longitude, latitude ;
 
@@ -40,7 +49,89 @@ public class CreateEventActivity extends AppCompatActivity {
         final TextView startTime = (TextView)findViewById(R.id.start_time);
         final TextView endTime = (TextView)findViewById(R.id.end_time);
         final EditText location_text = (EditText)findViewById(R.id.location_text);
+        final Spinner tag_spinner = (Spinner) findViewById(R.id.tag_spinner);
+        final Spinner semester_spinner = (Spinner) findViewById(R.id.semester_spinner);
         //final TextClock endTime = (TextClock)findViewById(R.id.endClock);
+
+        //setup semester_spinner
+        ArrayList<String> semesterStrings=new ArrayList<>();
+        for(int i = 1; i <= 10; i++){
+            semesterStrings.add(String.valueOf(i));
+        }
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CreateEventActivity.this, android.R.layout.simple_spinner_item, semesterStrings); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        semester_spinner.setAdapter(spinnerArrayAdapter);
+        semester_spinner.setSelection(0, true);
+
+        final ArrayList<Modul> modules = new ArrayList<Modul>();
+
+        mDatabase.child("modul").getRef().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                modules.clear();
+                for(DataSnapshot d: dataSnapshot.getChildren()){
+                    modules.add(d.getValue(Modul.class));
+                    System.out.println("added modul");
+                }
+
+                ArrayList<String> moduleSymbols = new ArrayList<>();
+
+                for(Modul m: modules){
+                    int sem = 0;
+                    sem = m.getSemester();
+                    //auswahl nach semester filtern:
+                    if(semester_spinner.getSelectedItem() != null) {
+                        if (Integer.toString(sem).equals(semester_spinner.getSelectedItem().toString())) {
+                            moduleSymbols.add(m.getSymbol());
+                            System.out.println("added symbol" + m.getSymbol());
+                        }
+                    }
+
+                }
+
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CreateEventActivity.this, android.R.layout.simple_spinner_item, moduleSymbols); //selected item will look like a spinner set from XML
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                tag_spinner.setAdapter(spinnerArrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        // #### auswahl neu setzen wenn anderes semester gesetzt wird:
+        semester_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ArrayList<String> moduleSymbols = new ArrayList<>();
+
+                for(Modul m: modules){
+                    int sem = 0;
+                    sem = m.getSemester();
+                    //auswahl nach semester filtern:
+                    if(semester_spinner.getSelectedItem() != null) {
+                        if (Integer.toString(sem).equals(semester_spinner.getSelectedItem().toString())) {
+                            moduleSymbols.add(m.getSymbol());
+                            System.out.println("added symbol" + m.getSymbol());
+                        }
+                    }
+
+                }
+
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CreateEventActivity.this, android.R.layout.simple_spinner_item, moduleSymbols); //selected item will look like a spinner set from XML
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                tag_spinner.setAdapter(spinnerArrayAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        // ####
 
         Calendar mcurrentTime = Calendar.getInstance();
         final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
