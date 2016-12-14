@@ -27,7 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:elevation="4dp" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -39,9 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_edit"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_create_black_24dp" />
+        app:srcCompat="@drawable/ic_forum_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

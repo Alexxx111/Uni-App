@@ -121,7 +121,7 @@
     <string name="enterMessage">enter your message here</string>
     <string name="back">Back</string>
     <string name="event_name">Event Name</string>
-    <string name="memer_counter">memer Counter</string>
+    <string name="member_counter">Member Counter</string>
     <string name="message_text">Message Text</string>
     <string name="message_hint">Write Message</string>
 </resources>
