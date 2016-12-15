@@ -225,6 +225,15 @@ public class CreateEventActivity extends AppCompatActivity {
                     return;
                 }
 
+
+                Modul selectedModul = null;
+
+                for(Modul m: modules){
+                    if(m.getSymbol().equals(tag_spinner.getSelectedItem())){
+                        selectedModul = m;
+                    }
+                }
+
                 Event event = new Event();
                 event.setName(groupNameText.getText().toString());
                 event.setDescription(groupDescritionText.getText().toString());
@@ -235,7 +244,10 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setStartMinute(startMinute);
                 event.setEndHour(endHour);
                 event.setEndMinute(endMinute);
-                event.setModul(tag_spinner.getSelectedItem().toString());
+                event.setModulName(selectedModul.getName());
+                event.setModulCp(selectedModul.getCp());
+                event.setModulSemester(selectedModul.getSemester());
+                event.setModulSymbol(selectedModul.getSymbol());
                 event.setLocation(location_text.getText().toString());
 
                 mDatabase.child("events").child(groupNameText.getText().toString()).setValue(event);

@@ -5,8 +5,8 @@ package com.unimate.model;
  */
 public class Event {
 
-    private String name, description, location, modul;
-    private int memberCount, startHour, startMinute, endHour, endMinute;
+    private String name, description, location, modulSymbol, modulName  ;
+    private int memberCount, startHour, startMinute, endHour, endMinute, modulCp, modulSemester;
     private double latitude, longitude;
 
     public Event() {
@@ -93,11 +93,35 @@ public class Event {
         this.location = location;
     }
 
-    public String getModul() {
-        return modul;
+    public String getModulSymbol() {
+        return modulSymbol;
     }
 
-    public void setModul(String modul) {
-        this.modul = modul;
+    public void setModulSymbol(String modulSymbol) {
+        this.modulSymbol = modulSymbol;
+    }
+
+    public String getModulName() {
+        return modulName;
+    }
+
+    public void setModulName(String modulName) {
+        this.modulName = modulName;
+    }
+
+    public int getModulCp() {
+        return modulCp;
+    }
+
+    public void setModulCp(int modulCp) {
+        this.modulCp = modulCp;
+    }
+
+    public int getModulSemester() {
+        return modulSemester;
+    }
+
+    public void setModulSemester(int modulSemester) {
+        this.modulSemester = modulSemester;
     }
 }

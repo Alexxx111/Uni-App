@@ -49,7 +49,7 @@ public class ListAdapter extends BaseAdapter {
         TextView member_counter_text = (TextView)vi.findViewById(R.id.member_counter_text); // artist name
         TextView modul_name = (TextView) vi.findViewById(R.id.modul_name);
 
-        String modul = events.get(position).getModul();
+        String modul = events.get(position).getModulSymbol();
         String name = events.get(position).getName();
         String count = String.valueOf(events.get(position).getMemberCount());
 
