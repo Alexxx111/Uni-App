@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8cc34b</color>
+    <color name="colorPrimary">#8BC34A</color>
     <color name="colorPrimaryDark">#7baa49</color>
-    <color name="colorAccent">#f34337</color>
+    <color name="colorAccent">#F44336</color>
+    <color name="FirstFade">#CDDC39</color>
+    <color name="SecondFade">#FFEB3B</color>
+    <color name="ThirdFade">#FFC107</color>
+    <color name="FourthFade">#FF9800</color>
+    <color name="FifthFade">#FF5722</color>
 </resources>

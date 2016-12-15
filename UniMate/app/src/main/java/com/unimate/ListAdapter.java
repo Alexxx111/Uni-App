@@ -56,6 +56,17 @@ public class ListAdapter extends BaseAdapter {
         // Setting all values in listview
         event_name_text.setText(name);
         modul_name.setText(modul);
+        /*int nummer =(int) modul.charAt(6);
+        switch(nummer){
+            case 1: modul_name.setBackgroundResource(R.color.FirstFade);
+                break;
+            case 2: modul_name.setBackgroundResource(R.color.SecondFade);
+                break;
+            case 3: modul_name.setBackgroundResource(R.color.ThirdFade);
+                break;
+            case 4: modul_name.setBackgroundResource(R.color.FifthFade);
+                break;
+        }*/
         member_counter_text.setText(count);
         return vi;
     }
