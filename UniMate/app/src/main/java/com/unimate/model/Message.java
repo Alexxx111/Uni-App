@@ -1,6 +1,8 @@
 package com.unimate.model;
 
 
+import android.graphics.Bitmap;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -11,6 +13,8 @@ import java.util.Date;
 public class Message {
 
     private String messageText, sender;
+    private int image; // is 0 when message is no image, is 1 when message is image
+    private Bitmap bmp;
 
     public Message(){
 
@@ -32,5 +36,19 @@ public class Message {
         this.sender = sender;
     }
 
+    public int getImage() {
+        return image;
+    }
 
+    public void setImage(int image) {
+        this.image = image;
+    }
+
+    public Bitmap getBmp() {
+        return bmp;
+    }
+
+    public void setBmp(Bitmap bmp) {
+        this.bmp = bmp;
+    }
 }

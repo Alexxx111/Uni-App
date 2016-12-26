@@ -3,6 +3,12 @@ package com.unimate;
 import android.content.Context;
 import android.content.Intent;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,25 +20,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.unimate.model.Message;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-public class NewGroupActivity extends AppCompatActivity {
+import static android.R.attr.bitmap;
+
+public class NewGroupActivity extends BaseActivity {
 
     MessageAdapter adapter;
     ListView listView;
     EditText messageEditText;
     FloatingActionButton fab;
+    ImageView resultImage;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
@@ -42,12 +60,23 @@ public class NewGroupActivity extends AppCompatActivity {
 
     private boolean textEntered;
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private FirebaseStorage storage;
+
+    private String groupNameString;
+
+    private StorageReference storageRef;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_group);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        storage = FirebaseStorage.getInstance();
 
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -57,9 +86,11 @@ public class NewGroupActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
 
+         storageRef = storage.getReferenceFromUrl("gs://unimate-93283.appspot.com");
+
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-
+        resultImage = (ImageView)findViewById(R.id.result_view);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar3);
 
         Intent intent = getIntent();
@@ -67,7 +98,7 @@ public class NewGroupActivity extends AppCompatActivity {
         final String startTimeString = intent.getStringExtra("startTime");
         final String endTimeString = intent.getStringExtra("endTime");
         final String groupDescriptionString = intent.getStringExtra("groupDescription");
-        final String groupNameString = intent.getStringExtra("groupName");
+       groupNameString = intent.getStringExtra("groupName");
 
         toolbar.setTitle(groupNameString);
 
@@ -80,6 +111,8 @@ public class NewGroupActivity extends AppCompatActivity {
 
         messageEditText = (EditText)findViewById(R.id.messageEditText);
 
+        showProgressDialog();
+
         // pull messages from the server
         mDatabase.child("messages").child(groupNameString).addValueEventListener(new ValueEventListener() {
             @Override
@@ -87,10 +120,38 @@ public class NewGroupActivity extends AppCompatActivity {
 
                 messageList.clear();
 
+
                 for(DataSnapshot d: dataSnapshot.getChildren()){
-                    Message m = d.getValue(Message.class);
+                    final Message m = d.getValue(Message.class);
+
+                    /*check if message was image*/
+                    if(m.getImage() == 1) {
+                        StorageReference islandRef = storageRef.child(m.getMessageText()+ ".jpg");
+
+                        final long ONE_MEGABYTE = 1024 * 1024;
+                        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Toast.makeText(NewGroupActivity.this, "new image has been loaded: " + m.getMessageText(), Toast.LENGTH_SHORT).show();
+
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                                m.setBmp(bitmap);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                Toast.makeText(NewGroupActivity.this, "new image has NOT been loaded: " + m.getMessageText(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+
                     messageList.add(m);
                 }
+
+                hideProgressDialog();
             }
 
             @Override
@@ -98,6 +159,8 @@ public class NewGroupActivity extends AppCompatActivity {
 
             }
         });
+
+
 
         messageEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -131,6 +194,7 @@ public class NewGroupActivity extends AppCompatActivity {
                     DatabaseReference messagesRef = mDatabase.child("messages").child(groupNameString).push();
 
                     Message m = new Message();
+                    m.setImage(0);
                     m.setMessageText(messageEditText.getText().toString());
                     java.util.Date date= new java.util.Date();
                     // m.setTimestamp(new Timestamp(date.getTime()));
@@ -149,6 +213,9 @@ public class NewGroupActivity extends AppCompatActivity {
                     messageEditText.setText("");
 
                 }
+                else{
+                    dispatchTakePictureIntent();
+                }
             }
         });
 
@@ -159,5 +226,77 @@ public class NewGroupActivity extends AppCompatActivity {
         messageListView.setAdapter(adapter);
 
 
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            resultImage.setImageBitmap(imageBitmap);
+
+
+            String nameOfImage = String.valueOf(System.nanoTime());
+
+            /* +++++++++++++++++++++++++++++++++ CERATE MESSAGE FOR IMAGE ++++++++++++++++++++++ */
+
+            DatabaseReference messagesRef = mDatabase.child("messages").child(groupNameString).push();
+
+            Message m = new Message();
+            m.setImage(1);
+            m.setMessageText(nameOfImage);
+            java.util.Date date= new java.util.Date();
+            // m.setTimestamp(new Timestamp(date.getTime()));
+            try{
+                m.setSender(mAuth.getCurrentUser().getEmail());
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
+            messagesRef.setValue(m);
+
+            // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+
+            // Create a reference to "mountains.jpg"
+            StorageReference mountainsRef = storageRef.child(nameOfImage+".jpg");
+
+            // Create a reference to 'images/mountains.jpg'
+            StorageReference mountainImagesRef = storageRef.child("images/" + nameOfImage + ".jpg");
+
+            // While the file names are the same, the references point to different files
+            mountainsRef.getName().equals(mountainImagesRef.getName());    // true
+            mountainsRef.getPath().equals(mountainImagesRef.getPath());    // false
+
+
+            // Get the data from an ImageView as bytes
+            resultImage.setDrawingCacheEnabled(true);
+            resultImage.buildDrawingCache();
+            Bitmap bitmap = resultImage.getDrawingCache();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] dataArray = baos.toByteArray();
+
+            UploadTask uploadTask = mountainsRef.putBytes(dataArray);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                }
+            });
+        }
     }
 }

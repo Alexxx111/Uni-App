@@ -67,5 +67,13 @@
         app:layout_constraintRight_toLeftOf="@+id/fab"
         android:layout_marginEnd="8dp" />
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteY="518dp"
+        tools:layout_editor_absoluteX="-8dp"
+        android:id="@+id/result_view" />
+
 
 </android.support.constraint.ConstraintLayout>
