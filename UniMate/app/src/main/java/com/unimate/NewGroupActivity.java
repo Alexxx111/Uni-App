@@ -78,6 +78,8 @@ public class NewGroupActivity extends BaseActivity {
 
         storage = FirebaseStorage.getInstance();
 
+
+
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
