@@ -68,6 +68,8 @@ public class NewGroupActivity extends BaseActivity {
 
     private StorageReference storageRef;
 
+    private ListView messageListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,9 @@ public class NewGroupActivity extends BaseActivity {
 
         messageEditText = (EditText)findViewById(R.id.messageEditText);
 
+        messageListView = (ListView)findViewById(R.id.message_list);
+
+
         showProgressDialog();
 
         // pull messages from the server
@@ -152,6 +157,9 @@ public class NewGroupActivity extends BaseActivity {
 
                     messageList.add(m);
                 }
+                // setup adapter
+                adapter=new MessageAdapter(NewGroupActivity.this, messageList);
+                messageListView.setAdapter(adapter);
 
                 hideProgressDialog();
             }
@@ -221,11 +229,7 @@ public class NewGroupActivity extends BaseActivity {
             }
         });
 
-        ListView messageListView = (ListView)findViewById(R.id.message_list);
 
-        // setup adapter
-        adapter=new MessageAdapter(NewGroupActivity.this, messageList);
-        messageListView.setAdapter(adapter);
 
 
     }
@@ -245,27 +249,7 @@ public class NewGroupActivity extends BaseActivity {
             resultImage.setImageBitmap(imageBitmap);
 
 
-            String nameOfImage = String.valueOf(System.nanoTime());
-
-            /* +++++++++++++++++++++++++++++++++ CERATE MESSAGE FOR IMAGE ++++++++++++++++++++++ */
-
-            DatabaseReference messagesRef = mDatabase.child("messages").child(groupNameString).push();
-
-            Message m = new Message();
-            m.setImage(1);
-            m.setMessageText(nameOfImage);
-            java.util.Date date= new java.util.Date();
-            // m.setTimestamp(new Timestamp(date.getTime()));
-            try{
-                m.setSender(mAuth.getCurrentUser().getEmail());
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-
-            messagesRef.setValue(m);
-
-            // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
+            final String nameOfImage = String.valueOf(System.nanoTime());
 
             // Create a reference to "mountains.jpg"
             StorageReference mountainsRef = storageRef.child(nameOfImage+".jpg");
@@ -297,6 +281,25 @@ public class NewGroupActivity extends BaseActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                      /* +++++++++++++++++++++++++++++++++ CERATE MESSAGE FOR IMAGE ++++++++++++++++++++++ */
+                    DatabaseReference messagesRef = mDatabase.child("messages").child(groupNameString).push();
+
+                    Message m = new Message();
+                    m.setImage(1);
+                    m.setMessageText(nameOfImage);
+                    java.util.Date date= new java.util.Date();
+                    // m.setTimestamp(new Timestamp(date.getTime()));
+                    try{
+                        m.setSender(mAuth.getCurrentUser().getEmail());
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+                    messagesRef.setValue(m);
+
+                    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
                 }
             });
         }
