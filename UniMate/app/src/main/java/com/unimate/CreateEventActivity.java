@@ -248,6 +248,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 event.setModulCp(selectedModul.getCp());
                 event.setModulSemester(selectedModul.getSemester());
                 event.setModulSymbol(selectedModul.getSymbol());
+                System.out.println("Found ID: "+selectedModul.getId());
+                event.setModulID(selectedModul.getId());
                 event.setLocation(location_text.getText().toString());
 
                 mDatabase.child("events").child(groupNameText.getText().toString()).setValue(event);
