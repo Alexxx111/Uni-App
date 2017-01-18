@@ -6,7 +6,7 @@ package com.unimate.model;
 
 public class Modul {
     private int cp, semester;
-    private String name, symbol;
+    private String name, symbol, id;
 
     public Modul(){
 
@@ -42,5 +42,13 @@ public class Modul {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
