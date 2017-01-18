@@ -44,10 +44,15 @@
             android:value="AIzaSyAPPtW1j7lYJPkdT1BvGzd_XKUrJdJ_Dik" />
 
         <activity android:name=".NewGroupActivity" />
+
         <activity
             android:name=".TagSelectActivity"
             android:label="@string/title_activity_tag_select"
             android:theme="@style/AppTheme"></activity>
+
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ChooseTagsActivity"></activity>
+
     </application>
 
 </manifest>

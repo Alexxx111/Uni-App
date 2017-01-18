@@ -1,6 +1,8 @@
 package com.unimate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -19,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends BaseActivity {
 
@@ -30,6 +33,8 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         Button login_button = (Button)findViewById(R.id.login_button);
         Button switch_to_register_button = (Button)findViewById(R.id.switch_to_register_button);
@@ -116,8 +121,28 @@ public class LoginActivity extends BaseActivity {
                             Toast.makeText(LoginActivity.this, "signin failed", Toast.LENGTH_LONG).show();
                         }
                         else{
-                            Intent  i = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(i);
+                            //check if this is the first startup
+                            SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+                            int defaultValue = 0;
+                            int value = sharedPref.getInt("firstStart", defaultValue);
+
+                            Toast.makeText(LoginActivity.this, "firstStart: " + value ,Toast.LENGTH_SHORT).show();
+
+                            if(value == 0) {
+                                //uncomment this part before production !!!
+                                /*SharedPreferences sharedPref2 = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putInt("firstStart", 0);
+                                editor.commit();*/
+
+                                Intent  i = new Intent(LoginActivity.this, ChooseTagsActivity.class);
+                                startActivity(i);
+
+                            }
+                            else{
+                                Intent  i = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(i);
+                            }
                         }
 
                         hideProgressDialog();

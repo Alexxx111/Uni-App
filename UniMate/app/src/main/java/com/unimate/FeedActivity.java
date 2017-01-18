@@ -53,7 +53,7 @@ public class FeedActivity extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();

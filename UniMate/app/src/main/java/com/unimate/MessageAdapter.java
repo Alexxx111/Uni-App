@@ -45,32 +45,39 @@ public class MessageAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
-        if(convertView==null)
-            vi = inflater.inflate(R.layout.message_element, null);
-
-        TextView messageText = (TextView)vi.findViewById(R.id.message_text); // title
-        ImageView messageImage = (ImageView)vi.findViewById(R.id.message_image);
-        String name = messages.get(position).getMessageText();
 
 
 
-        if(messages.get(position).getImage() == 1){
+        if(messages.get(position).getImage() == 1) {
+            vi = inflater.inflate(R.layout.message_element_image, null);
+
+            //TextView messageText = (TextView)vi.findViewById(R.id.message_text); // title
+            ImageView messageImage = (ImageView)vi.findViewById(R.id.message_image);
+            String name = messages.get(position).getMessageText();
+
             messageImage.setImageBitmap(messages.get(position).getBmp());
 
             System.out.println("yolo: " + messages.get(position).getBmp());
 
-            messageImage.getLayoutParams().height = (int) parent.getResources().getDimension(R.dimen.imageview_height);
-            messageImage.getLayoutParams().width = (int) parent.getResources().getDimension(R.dimen.imageview_width);
-
-            messageImage.setVisibility(View.VISIBLE);
+            //messageImage.setVisibility(View.VISIBLE);
             // Setting all values in listview
-            messageText.setText("");
-        }else{
+            //messageText.setText("");
+            System.out.println("asking for position: ..  " +position +" .. image: " + messages.get(position).getImage());
+        }
+        else if(messages.get(position).getImage() == 0){
             // Setting all values in listview
+            vi = inflater.inflate(R.layout.message_element, null);
 
-            messageImage.getLayoutParams().height = (int) 0;
-            messageImage.getLayoutParams().width = (int) 0;
-            messageImage.setVisibility(View.INVISIBLE);
+            TextView messageText = (TextView)vi.findViewById(R.id.message_text); // title
+            //ImageView messageImage = (ImageView)vi.findViewById(R.id.message_image);
+            String name = messages.get(position).getMessageText();
+
+            System.out.println("yolo: " + messages.get(position).getBmp());
+
+            //messageImage.getLayoutParams().height = (int) parent.getResources().getDimension(R.dimen.imageview_height_0);
+            //messageImage.getLayoutParams().width = (int) parent.getResources().getDimension(R.dimen.imageview_width_0);
+
+            //messageImage.setVisibility(View.INVISIBLE);
             messageText.setText(name);
         }
 
