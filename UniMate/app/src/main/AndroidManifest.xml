@@ -43,7 +43,11 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAPPtW1j7lYJPkdT1BvGzd_XKUrJdJ_Dik" />
 
-        <activity android:name=".NewGroupActivity"></activity>
+        <activity android:name=".NewGroupActivity" />
+        <activity
+            android:name=".TagSelectActivity"
+            android:label="@string/title_activity_tag_select"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
