@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.unimate.model.Event;
+import com.unimate.model.Modul;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,9 +40,18 @@ public class FeedActivity extends Fragment {
 
     private ListAdapter adapter;
 
+    private ArrayList<Modul> alreadySelectedModules;
+
+    private ListView listView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //reloadList();
+
         return inflater.inflate(R.layout.activity_feed, container, false);
+
+
 
     }
 
@@ -59,64 +69,9 @@ public class FeedActivity extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        ImageButton logout_button = (ImageButton) getView().findViewById(R.id.logout_button);
-        final ListView listView = (ListView)getView().findViewById(R.id.listView);
+        listView = (ListView)getView().findViewById(R.id.listView);
 
-        //load list start ----
-
-        final ArrayList events = new ArrayList<Event>();
-
-        mDatabase.child("events").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                events.clear();
-
-                for(DataSnapshot d: dataSnapshot.getChildren()){
-                    System.out.println("hallowww " + d.getValue().toString());
-                    events.add(d.getValue(Event.class));
-                }
-                // setup adapter
-                adapter=new ListAdapter(getActivity(), events);
-                listView.setAdapter(adapter);
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-                        Event e = (Event) adapterView.getAdapter().getItem(i);
-                        String groupNameString = e.getName();
-                        String startTimeString = e.getStartHour() + ":" + e.getStartMinute();
-                        String endTimeString = e.getEndHour() + ":" + e.getEndMinute();
-                        intent.putExtra("startTime", startTimeString);
-                        intent.putExtra("endTime", endTimeString);
-                        intent.putExtra("groupName", groupNameString);
-                        intent.putExtra("groupLocation", e.getLocation());
-                        String groupDescriptionString = e.getDescription();
-                        intent.putExtra("groupDescription", groupDescriptionString);
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-        // load list end ----
-
-        logout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOut();
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
-            }
-        });
+        reloadList();
 
         FloatingActionButton myFab = (FloatingActionButton)getView().findViewById(R.id.myFAB);
         myFab.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +80,88 @@ public class FeedActivity extends Fragment {
                 startActivity(i);
             }
         });
+
+    }
+
+    public void reloadList(){
+        alreadySelectedModules = new ArrayList<>();
+
+
+        //load list start ----
+
+        final ArrayList events = new ArrayList<Event>();
+
+        mDatabase.child("users").child(mAuth.getCurrentUser().getEmail().substring(0,4)).child("modules").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                alreadySelectedModules.clear();
+
+                for(DataSnapshot d1 : dataSnapshot.getChildren()){
+                    Modul m = d1.getValue(Modul.class);
+                    alreadySelectedModules.add(m);
+                }
+
+                mDatabase.child("events").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        events.clear();
+
+                        for(DataSnapshot d: dataSnapshot.getChildren()){
+                            System.out.println("hallowww " + d.getValue().toString());
+
+                            Event e= d.getValue(Event.class);
+
+                            for(Modul alreadySelectedModule : alreadySelectedModules){
+
+                                System.out.println("eventName: " + e.getModulName()+ " , already: " + alreadySelectedModule.getName());
+
+                                if(alreadySelectedModule.getName().equals(e.getModulName())){
+                                    events.add(e);
+                                }
+                            }
+
+
+                        }
+                        // setup adapter
+                        adapter=new ListAdapter(getActivity(), events);
+                        listView.setAdapter(adapter);
+
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                Intent intent = new Intent(getActivity(), DescriptionActivity.class);
+                                Event e = (Event) adapterView.getAdapter().getItem(i);
+                                String groupNameString = e.getName();
+                                String startTimeString = e.getStartHour() + ":" + e.getStartMinute();
+                                String endTimeString = e.getEndHour() + ":" + e.getEndMinute();
+                                intent.putExtra("startTime", startTimeString);
+                                intent.putExtra("endTime", endTimeString);
+                                intent.putExtra("groupName", groupNameString);
+                                intent.putExtra("groupLocation", e.getLocation());
+                                String groupDescriptionString = e.getDescription();
+                                intent.putExtra("groupDescription", groupDescriptionString);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        // load list end ----
 
     }
 
@@ -143,6 +180,14 @@ public class FeedActivity extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        reloadList();
+        System.out.println("onStrat called");
     }
 
     private void onBackPressed() {

@@ -72,8 +72,9 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 modules.clear();
                 for(DataSnapshot d: dataSnapshot.getChildren()){
-                    modules.add(d.getValue(Modul.class));
-                    System.out.println("added modul");
+                    Modul m = d.getValue(Modul.class);
+                    modules.add(m);
+                    System.out.println("added modul with id: " + m.getId());
                 }
 
                 ArrayList<String> moduleSymbols = new ArrayList<>();

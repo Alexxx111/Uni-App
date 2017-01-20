@@ -51,7 +51,7 @@ public class ChooseTagsActivity extends AppCompatActivity {
 
         tag_spinner = (Spinner)findViewById(R.id.tag_spinner);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
@@ -90,7 +90,7 @@ public class ChooseTagsActivity extends AppCompatActivity {
                     moduleSymbols.add(m.getSymbol());
                 }
 
-                choiceAdapter = new ChoiceAdapter(ChooseTagsActivity.this, modules);
+                choiceAdapter = new ChoiceAdapter(ChooseTagsActivity.this, modules, new ArrayList<Modul>());
                 modulesList.setAdapter(choiceAdapter);
 
             }

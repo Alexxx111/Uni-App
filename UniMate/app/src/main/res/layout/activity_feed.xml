@@ -9,21 +9,10 @@
 
 
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/logout_button"
-        app:srcCompat="@drawable/ic_arrow_back_black_24dp"
-        style="@android:style/Widget.DeviceDefault.Light.ImageButton"
-        android:contentDescription="@string/back"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:id="@+id/listView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -31,7 +20,8 @@
         android:divider="@android:color/transparent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintBottom_toTopOf="@+id/myFAB" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/myFAB"
