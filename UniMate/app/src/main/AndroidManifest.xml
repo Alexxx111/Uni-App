@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,7 @@
             android:name=".BaseActivity"
             android:label="@string/title_activity_base"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FeedActivity" />
+        <!--<activity android:name=".FeedActivity" />-->
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CreateEventActivity" />
         <activity
@@ -53,6 +54,10 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ChooseTagsActivity"></activity>
 
+        <service
+            android:name=".LocationService"
+            android:label="Location Service" >
+        </service>
     </application>
 
 </manifest>
