@@ -98,7 +98,7 @@ private String cameFromActivityString;
     @Override
     public void onBackPressed() {
 
-        if(cameFromActivityString!= null && cameFromActivityString.equals("newGroup")){
+        if(cameFromActivityString!= null && (cameFromActivityString.equals("newGroup") || cameFromActivityString.equals("locationService"))){
 
             Intent intent = new Intent(DescriptionActivity.this, MainActivity.class);
 

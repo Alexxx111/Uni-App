@@ -153,7 +153,7 @@ public class LocationService extends Service {
                                 intent.putExtra("groupName", groupNameString);
                                 intent.putExtra("groupLocation", e.getLocation());
                                 String groupDescriptionString = e.getDescription();
-                                intent.putExtra("groupDescription", groupDescriptionString);
+                                intent.putExtra("cameFromActivity", "locationService");
 
 
                                 // ************************************ //
