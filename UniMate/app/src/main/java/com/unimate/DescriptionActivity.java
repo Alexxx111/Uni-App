@@ -23,6 +23,7 @@ public class DescriptionActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
+private String cameFromActivityString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class DescriptionActivity extends AppCompatActivity {
         final String endTimeString = intent.getStringExtra("endTime");
         final String groupDescriptionString = intent.getStringExtra("groupDescription");
         final String groupNameString = intent.getStringExtra("groupName");
+
+        cameFromActivityString = intent.getStringExtra("cameFromActivity");
 
         setTitle(groupNameString);
         descriptionText.setText(groupDescriptionString);
@@ -84,8 +87,27 @@ public class DescriptionActivity extends AppCompatActivity {
                 intent1.putExtra("groupName", groupNameString);
                 intent1.putExtra("groupDescription", groupDescriptionString);
                 intent1.putExtra("groupLocation", groupLocationString);
+                intent1.putExtra("cameFromActivity","description");
+
+
                 startActivity(intent1);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(cameFromActivityString!= null && cameFromActivityString.equals("newGroup")){
+
+            Intent intent = new Intent(DescriptionActivity.this, MainActivity.class);
+
+            intent.putExtra("cameFromActivity","description");
+
+            startActivity(intent);
+
+        }
+        else{
+        super.onBackPressed();}
     }
 }

@@ -121,8 +121,6 @@ public class FeedActivity extends Fragment {
                                     events.add(e);
                                 }
                             }
-
-
                         }
                         // setup adapter
                         adapter=new ListAdapter(getActivity(), events);

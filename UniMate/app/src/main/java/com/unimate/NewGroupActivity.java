@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.unimate.model.Event;
 import com.unimate.model.Message;
 
 import java.io.ByteArrayInputStream;
@@ -70,6 +71,12 @@ public class NewGroupActivity extends BaseActivity {
 
     private ListView messageListView;
 
+    private String startTimeString;
+    private String endTimeString;
+    private String groupDescriptionString;
+    private String groupLocationString;
+    private String getGroupNameString;
+    private String cameFromActivityString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +106,12 @@ public class NewGroupActivity extends BaseActivity {
 
         Intent intent = getIntent();
         String memberCountString = intent.getStringExtra("memberCount");
-        final String startTimeString = intent.getStringExtra("startTime");
-        final String endTimeString = intent.getStringExtra("endTime");
-        final String groupDescriptionString = intent.getStringExtra("groupDescription");
-       groupNameString = intent.getStringExtra("groupName");
+        startTimeString = intent.getStringExtra("startTime");
+        endTimeString = intent.getStringExtra("endTime");
+        groupDescriptionString = intent.getStringExtra("groupDescription");
+        groupNameString = intent.getStringExtra("groupName");
+        groupLocationString = intent.getStringExtra("groupLocation");
+        cameFromActivityString = intent.getStringExtra("cameFromActivity");
 
         toolbar.setTitle(groupNameString);
 
@@ -302,6 +311,42 @@ public class NewGroupActivity extends BaseActivity {
                     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
                 }
             });
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        // add one to the membercounter:
+        mDatabase.child("events").child(groupNameString).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Event e = dataSnapshot.getValue(Event.class);
+                int countBefore = e.getMemberCount();
+                e.setMemberCount(countBefore-1);
+                mDatabase.child("events").child(groupNameString).setValue(e);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        if(cameFromActivityString.equals("create")) {
+            Intent intent = new Intent(NewGroupActivity.this, DescriptionActivity.class);
+
+            intent.putExtra("startTime", startTimeString);
+            intent.putExtra("endTime", endTimeString);
+            intent.putExtra("groupName", groupNameString);
+            intent.putExtra("groupLocation", groupLocationString);
+            intent.putExtra("groupDescription", groupDescriptionString);
+            intent.putExtra("cameFromActivity","newGroup");
+
+            startActivity(intent);
+        }
+        else{
+            super.onBackPressed();
         }
     }
 }

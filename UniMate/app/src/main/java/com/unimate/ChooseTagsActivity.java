@@ -101,4 +101,9 @@ public class ChooseTagsActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

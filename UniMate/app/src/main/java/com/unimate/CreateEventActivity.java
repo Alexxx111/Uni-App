@@ -268,6 +268,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 intent1.putExtra("groupName", groupNameString);
                 intent1.putExtra("groupDescription", groupDescriptionString);
                 intent1.putExtra("groupLocation", groupLocationString);
+                intent1.putExtra("cameFromActivity","create");
                 startActivity(intent1);
             }
         });
