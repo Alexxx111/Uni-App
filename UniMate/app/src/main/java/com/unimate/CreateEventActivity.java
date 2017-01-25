@@ -56,7 +56,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         //setup semester_spinner
         ArrayList<String> semesterStrings=new ArrayList<>();
-        for(int i = 1; i <= 10; i++){
+        for(int i = 1; i <= 5; i++){
             semesterStrings.add(String.valueOf(i));
         }
 

@@ -195,7 +195,7 @@ public class NewGroupActivity extends BaseActivity {
                     textEntered = true;
                 }
                 else{
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_create_black_24dp));
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_a_photo_black_24dp));
                     textEntered = false;
                 }
             }

@@ -46,11 +46,6 @@
 
         <activity android:name=".NewGroupActivity" />
 
-        <activity
-            android:name=".TagSelectActivity"
-            android:label="@string/title_activity_tag_select"
-            android:theme="@style/AppTheme"></activity>
-
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ChooseTagsActivity"></activity>
 

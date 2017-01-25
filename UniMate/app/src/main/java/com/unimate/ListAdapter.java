@@ -7,6 +7,11 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +19,12 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.unimate.model.Event;
+
+
+import static com.unimate.R.drawable.ic_brightness_1_fifth_24dp;
+import static com.unimate.R.drawable.ic_brightness_1_first_24dp;
+import static com.unimate.R.drawable.ic_brightness_1_second_24dp;
+import static com.unimate.R.drawable.ic_brightness_1_third_24dp;
 
 public class ListAdapter extends BaseAdapter {
 
@@ -40,6 +51,7 @@ public class ListAdapter extends BaseAdapter {
         return position;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         if(convertView==null)
@@ -59,13 +71,18 @@ public class ListAdapter extends BaseAdapter {
         int nummer = modulID.charAt(6) - '0';
         modul_name.setText(modul);
         switch(nummer){
-            case 1: modul_name.setBackgroundResource(R.color.FirstFade);
+
+            case 1:
+                modul_name.setBackground(ContextCompat.getDrawable(this.activity, ic_brightness_1_first_24dp));
                 break;
-            case 2: modul_name.setBackgroundResource(R.color.SecondFade);
+            case 2:
+                modul_name.setBackground(ContextCompat.getDrawable(this.activity, ic_brightness_1_second_24dp));
                 break;
-            case 3: modul_name.setBackgroundResource(R.color.ThirdFade);
+            case 3:
+                modul_name.setBackground(ContextCompat.getDrawable(this.activity, ic_brightness_1_third_24dp));
                 break;
-            case 4: modul_name.setBackgroundResource(R.color.FifthFade);
+            case 4:
+                modul_name.setBackground(ContextCompat.getDrawable(this.activity, ic_brightness_1_fifth_24dp));
                 break;
         }
         member_counter_text.setText(count);
