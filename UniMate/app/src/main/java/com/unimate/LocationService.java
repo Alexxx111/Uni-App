@@ -137,7 +137,7 @@ public class LocationService extends Service {
 
                                 NotificationCompat.Builder mBuilder =
                                         new NotificationCompat.Builder(LocationService.this)
-                                                .setSmallIcon(R.drawable.common_full_open_on_phone)
+                                                .setSmallIcon(R.drawable.ic_stat_name)
                                                 .setContentTitle("There is a Learinggroup around!")
                                                 .setContentText(e.getName());
 
