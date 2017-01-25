@@ -3,7 +3,6 @@ package com.unimate;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -27,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.unimate.model.Event;
 
 import com.oguzdev.circularfloatingactionmenu.library.*;
+
+import java.util.Calendar;
 
 import static android.R.id.button2;
 import static com.unimate.R.drawable.ic_forum_black_24dp;
@@ -81,8 +82,10 @@ private String cameFromActivityString;
         Drawable button= ContextCompat.getDrawable(this ,R.drawable.ic_brightness_1_fifth_24dp);
         Drawable icon2= ContextCompat.getDrawable(this, R.drawable.ic_today_black_24dp);
         Drawable icon=ContextCompat.getDrawable(this, ic_forum_black_24dp);
-        icon.setTint(color);
-        icon2.setTint(color);
+        if (Build.VERSION.SDK_INT >= 21) {
+            icon.setTint(color);
+            icon2.setTint(color);
+        }
 // Reminder:
         ImageView itemIcon = new ImageView(this);
         itemIcon.setImageDrawable(icon2);

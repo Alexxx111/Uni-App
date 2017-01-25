@@ -34,8 +34,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
         Button login_button = (Button)findViewById(R.id.login_button);
         Button switch_to_register_button = (Button)findViewById(R.id.switch_to_register_button);
         final TextView username_text = (TextView)findViewById(R.id.username_text);
@@ -65,16 +63,13 @@ public class LoginActivity extends BaseActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Toast.makeText(LoginActivity.this, "signed_in", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "signed in", Toast.LENGTH_LONG).show();
 
                 } else {
                     // User is signed out
-                    Toast.makeText(LoginActivity.this, "signed_out", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "signed out", Toast.LENGTH_LONG).show();
 
                 }
-                // [START_EXCLUDE]
-                //updateUI(user);
-                // [END_EXCLUDE]
             }
         };
         // [END auth_state_listener]
@@ -104,6 +99,10 @@ public class LoginActivity extends BaseActivity {
     private void signIn(String email, String password) {
 
         //validate form here
+        if(email.isEmpty() || password.isEmpty()){
+            Toast.makeText(LoginActivity.this,"Please fill in username and password.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         showProgressDialog();
 
@@ -112,7 +111,7 @@ public class LoginActivity extends BaseActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Toast.makeText(LoginActivity.this, "auth state: "+ task.isSuccessful(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(LoginActivity.this, "login state: "+ task.isSuccessful(), Toast.LENGTH_LONG).show();
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -126,14 +125,14 @@ public class LoginActivity extends BaseActivity {
                             int defaultValue = 0;
                             int value = sharedPref.getInt("firstStart", defaultValue);
 
-                            Toast.makeText(LoginActivity.this, "firstStart: " + value ,Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LoginActivity.this, "firstStart: " + value ,Toast.LENGTH_SHORT).show();
 
                             if(value == 0) {
                                 //uncomment this part before production !!!
-                                /*SharedPreferences sharedPref2 = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences sharedPref2 = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putInt("firstStart", 0);
-                                editor.commit();*/
+                                editor.putInt("firstStart", 1);
+                                editor.commit();
 
                                 Intent  i = new Intent(LoginActivity.this, ChooseTagsActivity.class);
                                 startActivity(i);

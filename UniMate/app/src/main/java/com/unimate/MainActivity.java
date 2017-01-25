@@ -71,13 +71,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.settings_entry:
-                Toast.makeText(MainActivity.this, "yolo", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "yolo", Toast.LENGTH_SHORT).show();
 
                 String email = mAuth.getCurrentUser().getEmail();
 
                 Intent intent = new Intent(this, SettingsActivity.class);
                 intent.putExtra("emailString", email);
                 this.startActivity(intent);
+                break;
+            case R.id.logout_entry:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent1 = new Intent(this, LoginActivity.class);
+                this.startActivity(intent1);
                 break;
         }
 

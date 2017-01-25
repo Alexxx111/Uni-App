@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ public class ListAdapter extends BaseAdapter {
         activity = a;
         this.events = events;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     public int getCount() {

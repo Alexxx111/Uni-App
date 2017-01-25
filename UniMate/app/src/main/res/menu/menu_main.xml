@@ -5,4 +5,7 @@
     <item android:title="Settings"
         android:id="@+id/settings_entry"
         android:icon="@drawable/ic_emblem_unimate"  />
+    <item android:title="Logout"
+        android:id="@+id/logout_entry"
+        android:icon="@drawable/ic_emblem_unimate"  />
 </menu>
