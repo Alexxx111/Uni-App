@@ -89,13 +89,13 @@ public class RegisterActivity extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(),
+                        Toast.makeText(RegisterActivity.this, "Created User Successfull: " + task.isSuccessful(),
                                 Toast.LENGTH_SHORT).show();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "authentication not successful.",
+                            Toast.makeText(RegisterActivity.this, "Authentication Unsuccessful",
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{

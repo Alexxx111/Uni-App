@@ -54,8 +54,10 @@ public class NewGroupActivity extends BaseActivity {
     ImageView resultImage;
 
     // [START declare_database_ref]
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseRef;
     // [END declare_database_ref]
+
+    private FirebaseDatabase mDatabase;
 
     private FirebaseAuth mAuth;
 
@@ -85,12 +87,15 @@ public class NewGroupActivity extends BaseActivity {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
+        /*if (mDatabase == null) {
+            mDatabase = FirebaseDatabase.getInstance();
+            mDatabase.setPersistenceEnabled(true);
+        }*/
+
         storage = FirebaseStorage.getInstance();
 
-
-
         // [START initialize_database_ref]
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabaseRef = mDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
         // [START initialize_auth]
@@ -115,11 +120,6 @@ public class NewGroupActivity extends BaseActivity {
 
         toolbar.setTitle(groupNameString);
 
-
-        // [START initialize_database_ref]
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        // [END initialize_database_ref]
-
         final ArrayList<Message> messageList = new ArrayList<>();
 
         messageEditText = (EditText)findViewById(R.id.messageEditText);
@@ -130,7 +130,7 @@ public class NewGroupActivity extends BaseActivity {
         showProgressDialog();
 
         // pull messages from the server
-        mDatabase.child("messages").child(groupNameString).addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.child("messages").child(groupNameString).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -148,7 +148,7 @@ public class NewGroupActivity extends BaseActivity {
                         islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                             @Override
                             public void onSuccess(byte[] bytes) {
-                                Toast.makeText(NewGroupActivity.this, "new image has been loaded: " + m.getMessageText(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(NewGroupActivity.this, "new image has been loaded: " + m.getMessageText(), Toast.LENGTH_SHORT).show();
 
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
@@ -158,7 +158,7 @@ public class NewGroupActivity extends BaseActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
-                                Toast.makeText(NewGroupActivity.this, "new image has NOT been loaded: " + m.getMessageText(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(NewGroupActivity.this, "new image has NOT been loaded: " + m.getMessageText(), Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -210,7 +210,7 @@ public class NewGroupActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if(textEntered){
-                    DatabaseReference messagesRef = mDatabase.child("messages").child(groupNameString).push();
+                    DatabaseReference messagesRef = mDatabaseRef.child("messages").child(groupNameString).push();
 
                     Message m = new Message();
                     m.setImage(0);
@@ -292,7 +292,7 @@ public class NewGroupActivity extends BaseActivity {
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
                       /* +++++++++++++++++++++++++++++++++ CERATE MESSAGE FOR IMAGE ++++++++++++++++++++++ */
-                    DatabaseReference messagesRef = mDatabase.child("messages").child(groupNameString).push();
+                    DatabaseReference messagesRef = mDatabaseRef.child("messages").child(groupNameString).push();
 
                     Message m = new Message();
                     m.setImage(1);
@@ -318,13 +318,13 @@ public class NewGroupActivity extends BaseActivity {
     public void onBackPressed() {
 
         // add one to the membercounter:
-        mDatabase.child("events").child(groupNameString).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabaseRef.child("events").child(groupNameString).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Event e = dataSnapshot.getValue(Event.class);
                 int countBefore = e.getMemberCount();
                 e.setMemberCount(countBefore-1);
-                mDatabase.child("events").child(groupNameString).setValue(e);
+                mDatabaseRef.child("events").child(groupNameString).setValue(e);
             }
 
             @Override
