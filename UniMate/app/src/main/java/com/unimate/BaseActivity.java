@@ -23,7 +23,8 @@ public class BaseActivity extends AppCompatActivity {
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("lädt");
+            mProgressDialog.setTitle("Loading");
+            mProgressDialog.setMessage("Searching Uni for Mates...");
             mProgressDialog.setIndeterminate(true);
         }
 

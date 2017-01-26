@@ -2,6 +2,7 @@ package com.unimate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private TextView emailText;
     private ListView modulesList;
-    private Button saveSettingsButton;
+    private FloatingActionButton saveSettingsButton;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
@@ -57,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
         final String emailString = intent.getStringExtra("emailString");
 
         emailText = (TextView)findViewById(R.id.setting_email_text);
-        saveSettingsButton = (Button)findViewById(R.id.save_settings_button);
+        saveSettingsButton = (FloatingActionButton) findViewById(R.id.save_settings_button);
 
         emailText.setText(emailString);
 

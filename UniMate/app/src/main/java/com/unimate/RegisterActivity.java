@@ -79,7 +79,11 @@ public class RegisterActivity extends BaseActivity {
 
     private void createAccount(final String email, String password) {
 
-        // validate form here
+        //validate form here
+        if(email.isEmpty() || password.isEmpty()){
+            Toast.makeText(RegisterActivity.this,"Please fill in your valid email address and a secure password!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         showProgressDialog();
 
@@ -107,7 +111,7 @@ public class RegisterActivity extends BaseActivity {
 
                             mDatabase.child("users").child(name).setValue(user);
 
-                            Intent i = new Intent(RegisterActivity.this, FeedActivity.class);
+                            Intent i = new Intent(RegisterActivity.this, ChooseTagsActivity.class);
                             startActivity(i);
                         }
 

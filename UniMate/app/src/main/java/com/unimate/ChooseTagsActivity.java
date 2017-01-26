@@ -1,6 +1,7 @@
 package com.unimate;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +31,7 @@ public class ChooseTagsActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
-    private Button proceed_button;
+    private FloatingActionButton proceed_button;
 
     private ChoiceAdapter choiceAdapter;
 
@@ -56,7 +57,7 @@ public class ChooseTagsActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        proceed_button = (Button)findViewById(R.id.proceed_button);
+        proceed_button = (FloatingActionButton) findViewById(R.id.proceed_button);
 
         proceed_button.setOnClickListener(new View.OnClickListener() {
             @Override

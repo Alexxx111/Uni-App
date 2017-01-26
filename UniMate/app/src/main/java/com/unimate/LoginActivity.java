@@ -100,7 +100,7 @@ public class LoginActivity extends BaseActivity {
 
         //validate form here
         if(email.isEmpty() || password.isEmpty()){
-            Toast.makeText(LoginActivity.this,"Please fill in username and password.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this,"Please fill in your username and the correct password!", Toast.LENGTH_SHORT).show();
             return;
         }
 
