@@ -80,6 +80,8 @@ public class NewGroupActivity extends BaseActivity {
     private String getGroupNameString;
     private String cameFromActivityString;
 
+    private  int i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,13 +138,22 @@ public class NewGroupActivity extends BaseActivity {
 
                 messageList.clear();
 
+                final long messageCount = dataSnapshot.getChildrenCount();
+                i = 0;
+
+                System.out.println("yolo childrenCount :: " + messageCount);
 
                 for(DataSnapshot d: dataSnapshot.getChildren()){
                     final Message m = d.getValue(Message.class);
 
+                    i++;
+                    System.out.println("yolo i:: "+ i);
+
                     /*check if message was image*/
                     if(m.getImage() == 1) {
                         StorageReference islandRef = storageRef.child(m.getMessageText()+ ".jpg");
+
+                        final int pos = i;
 
                         final long ONE_MEGABYTE = 1024 * 1024;
                         islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -154,6 +165,18 @@ public class NewGroupActivity extends BaseActivity {
 
                                 m.setBmp(bitmap);
 
+                                System.out.println("yolo setting image :: " + m.getBmp());
+
+                                messageList.set(pos-1,m);
+
+                                if(messageCount == i){
+                                    System.out.println("yolo setting adapter....");
+
+                                    // setup adapter
+                                    adapter=new MessageAdapter(NewGroupActivity.this, messageList);
+                                    messageListView.setAdapter(adapter);
+                                }
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -163,12 +186,11 @@ public class NewGroupActivity extends BaseActivity {
                         });
 
                     }
-
                     messageList.add(m);
+
                 }
-                // setup adapter
-                adapter=new MessageAdapter(NewGroupActivity.this, messageList);
-                messageListView.setAdapter(adapter);
+
+
 
                 hideProgressDialog();
             }

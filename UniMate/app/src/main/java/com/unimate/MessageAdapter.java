@@ -46,8 +46,6 @@ public class MessageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
 
-
-
         if(messages.get(position).getImage() == 1) {
             vi = inflater.inflate(R.layout.message_element_image, null);
 
